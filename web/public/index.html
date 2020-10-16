@@ -8,10 +8,38 @@
   html, body {
     text-align: center;
   }
-  button {
+  .send-emote {
     padding: 10px;
     font-size: 20px;
     margin: 5px;
+  }
+  hr {
+    height: 1px;
+    margin: 10px 0;
+    padding: 0;
+    border: 0;
+    border-top: 1px dotted #aaa;
+    background: transparent;
+    color: transparent;
+  }
+  form {
+    padding: 10px;
+  }
+  .send-text {
+    padding: 5px 10px;
+    margin: 0 5px;
+  }
+  .text {
+    font-size: 16px;
+    padding: 5px;
+  }
+  .color {
+    font-size: 18px;
+    padding: 3px 5px;
+  }
+  .color option[value="red"] {
+    color: #ff0000;
+    background: #ff0000;
   }
   </style>
 </head>
@@ -26,6 +54,18 @@
   <button class="send-emote" data-value="👍">👍</button>
   <button class="send-emote" data-value="😱">😱</button>
   <button class="send-emote" data-value="🍤">🍤</button>
+  <hr>
+  <form>
+    <select class="color">
+      <option value="#333333">black</option>
+      <option value="#cc0033">red</option>
+      <option value="#ff6600">orange</option>
+      <option value="#3399ff">blue</option>
+      <option value="#6633cc">purple2</option>
+    </select>
+    <input type="text" class="text" value="" placeholder="コメント">
+    <button class="send-text">送信</button>
+  </form>
 
   <script>
     const HOST = location.origin.replace(/^http/, 'ws');
@@ -39,6 +79,28 @@
         ws.send(JSON.stringify(payload));
       });
     });
+    document.querySelector('.send-text').addEventListener('click', () => {
+      sendText();
+    });
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      sendText();
+    });
+    function sendText() {
+      const textElm = document.querySelector('.text');
+      const text = textElm.value;
+      if (text) {
+        const payload = {
+          action: 'send-text',
+          params: {
+            value: text,
+            color: document.querySelector('.color').value
+          }
+        }
+        ws.send(JSON.stringify(payload));
+        textElm.value = '';
+      }
+    }
   </script>
 </body>
 </html>

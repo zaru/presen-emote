@@ -19,6 +19,9 @@ app.ws('/', (ws, req) => {
       case 'send-emote':
         showEmote(connects, payload.params);
         break;
+      case 'send-text':
+        showText(connects, payload.params);
+        break;
     }
   });
 
@@ -39,6 +42,15 @@ function showEmote(connects, params) {
   });
 }
 
+function showText(connects, params) {
+  const payload = {
+    action: 'show-text',
+    params: params
+  };
+  connects.forEach(socket => {
+    socket.send(JSON.stringify(payload));
+  });
+}
 
 app.listen(app.get('port'), () => {
   console.log('Server listening on port %s', app.get('port'));

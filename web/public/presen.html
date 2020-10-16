@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style type="text/css">
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    body {
+    }
+    body:hover {
+      border: 3px solid #eee;
+    }
+    </style>
+</head>
+<body>
+  <script>
+    const HOST = location.origin.replace(/^http/, 'ws');
+    const ws = new WebSocket(HOST);
+
+    ws.onmessage = function(message) {
+      console.log(message);
+      const payload = JSON.parse(message.data);
+      switch (payload.action) {
+        case 'show-emote':
+          showEmote(payload.params);
+          break;
+      }
+    }
+
+    function showEmote(emote) {
+      console.log(emote);
+
+      const width = document.body.clientWidth;
+      const height = document.body.clientHeight;
+
+      const elm = document.createElement('div');
+      elm.innerHTML = emote;
+      elm.style.fontSize = '32px';
+      elm.style.width = '32px';
+      elm.style.height = '32px';
+      elm.style.position = 'absolute';
+      elm.style.left = `${Math.floor(Math.random() * width + 30)}px`;
+      elm.style.top = `${Math.floor(Math.random() * height + 30)}px`;
+
+      elm.style.opacity = '0';
+      document.body.appendChild(elm);
+      setTimeout(() => {
+        animeEmote(elm);
+      }, 300)
+    }
+
+    async function animeEmote(elm) {
+      await anime({
+        targets: elm,
+        translateX: 10,
+        scale: 2,
+        opacity: 1,
+        rotate: '1turn'
+      }).finished;
+      await anime({
+        targets: elm,
+        opacity: 0
+      }).finished;
+      elm.remove();
+    }
+  </script>
+</body>
+</html>

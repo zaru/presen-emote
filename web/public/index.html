@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+  html, body {
+    text-align: center;
+  }
+  button {
+    padding: 10px;
+    font-size: 20px;
+    margin: 5px;
+  }
+  </style>
+</head>
+<body>
+
+  <button class="send-emote" data-value="😍">😍</button>
+  <button class="send-emote" data-value="🎉">🎉</button>
+  <button class="send-emote" data-value="🤣">🤣</button>
+  <button class="send-emote" data-value="😭">😭</button>
+  <button class="send-emote" data-value="🎃">🎃</button>
+  <button class="send-emote" data-value="😈">😈</button>
+  <button class="send-emote" data-value="👍">👍</button>
+  <button class="send-emote" data-value="😱">😱</button>
+  <button class="send-emote" data-value="🍤">🍤</button>
+
+  <script>
+    const HOST = location.origin.replace(/^http/, 'ws');
+    const ws = new WebSocket(HOST);
+    document.querySelectorAll('.send-emote').forEach((elm) => {
+      elm.addEventListener('click', (evt) => {
+        const payload = {
+          action: 'send-emote',
+          params: evt.target.dataset.value
+        }
+        ws.send(JSON.stringify(payload));
+      });
+    });
+  </script>
+</body>
+</html>

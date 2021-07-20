@@ -32,6 +32,15 @@ app.ws('/', (ws, req) => {
   });
 });
 
+const interval = setInterval(() => {
+  const payload = {
+    timestamp: new Date().getTime()
+  };
+  connects.forEach(socket => {
+    socket.send(JSON.stringify(payload));
+  });
+}, 10000);
+
 function showEmote(connects, params) {
   const payload = {
     action: 'show-emote',

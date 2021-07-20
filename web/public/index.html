@@ -75,6 +75,11 @@
   <script>
     const HOST = location.origin.replace(/^http/, 'ws');
     const ws = new WebSocket(HOST);
+
+    ws.onmessage = (event) => {
+      ws.send(event.data);
+    };
+
     document.querySelectorAll('.send-emote').forEach((elm) => {
       elm.addEventListener('click', (evt) => {
         const payload = {

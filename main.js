@@ -36,8 +36,8 @@ function createWindow() {
     win.setAlwaysOnTop(true);
   }
 
-  // win.loadURL('http://0.0.0.0:3000/presen.html');
-  win.loadURL('https://warm-wave-04818.herokuapp.com/presen.html');
+  win.loadURL('http://0.0.0.0:3000/presen.html');
+  // win.loadURL('https://presen-emote.herokuapp.com/presen.html');
 
   // win.webContents.openDevTools();
 }

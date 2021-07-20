@@ -77,7 +77,10 @@
     const ws = new WebSocket(HOST);
 
     ws.onmessage = (event) => {
-      ws.send(event.data);
+      const payload = JSON.parse(message.data);
+      if (payload.timestamp) {
+        ws.send(event.data);
+      }
     };
 
     document.querySelectorAll('.send-emote').forEach((elm) => {

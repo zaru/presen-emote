@@ -76,10 +76,10 @@
     const HOST = location.origin.replace(/^http/, 'ws');
     const ws = new WebSocket(HOST);
 
-    ws.onmessage = (event) => {
+    ws.onmessage = (message) => {
       const payload = JSON.parse(message.data);
       if (payload.timestamp) {
-        ws.send(event.data);
+        ws.send(message.data);
       }
     };
 
